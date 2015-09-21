@@ -2,12 +2,15 @@
 title: "Reproducible Research: Peer Assessment 1"
 author: "gracekatherine"
 date: "September 15, 2015"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
 ---
 
 # Loading and preprocessing the data
 1. Load the data
 ```{r}
+unzip("activity.zip")
 data <- read.csv("activity.csv")
 ```
 2. Process/transform the data into a format suitable for your analysis
@@ -25,7 +28,7 @@ daily_steps <- summarize(data_grouped, steps.total = sum(steps))
 ```
 2. Make a histogram of the total number of steps taken each day.
 ```{r}
-plot(daily_steps, type = "h", main = "Daily Steps", xlab = "Date", ylab = "Total Steps")
+hist(daily_steps$steps.total, main = "Daily Steps", xlab = "Steps per Day")
 ```
 
 3. Calculate and report the mean and median of the total number of steps taken per day.
@@ -67,7 +70,7 @@ for(i in 1:nrow(data_new)) {
 ```{r}
 data_grouped3 <- group_by(data_new, date)
 daily_steps2 <- summarize(data_grouped3, steps.total = sum(steps))
-plot(daily_steps2, type = "h", main = "Daily Steps, with Imputed Values", ylab = "Total Steps", xlab = "Date")
+hist(daily_steps2$steps.total, main = "Daily Steps, with Imputed Values", xlab = "Steps per Day")
 
 mean(daily_steps2$steps.total)
 median(daily_steps2$steps.total)

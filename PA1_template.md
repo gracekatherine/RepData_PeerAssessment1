@@ -1,24 +1,13 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-author: "gracekatherine"
-date: "September 15, 2015"
-output: html_document
----
+# Reproducible Research: Peer Assessment 1
+gracekatherine  
+September 15, 2015  
 
 # Loading and preprocessing the data
 1. Load the data
 
 ```r
+unzip("activity.zip")
 data <- read.csv("activity.csv")
-```
-
-```
-## Warning in file(file, "rt"): cannot open file 'activity.csv': No such file
-## or directory
-```
-
-```
-## Error in file(file, "rt"): cannot open the connection
 ```
 2. Process/transform the data into a format suitable for your analysis
 
@@ -32,16 +21,32 @@ data_clean <- data[!is.na(data$steps),] ## remove missing values
 
 ```r
 library(dplyr)
+```
+
+```
+## 
+## Attaching package: 'dplyr'
+## 
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+## 
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
 data_grouped <- group_by(data_clean, date)
 daily_steps <- summarize(data_grouped, steps.total = sum(steps))
 ```
 2. Make a histogram of the total number of steps taken each day.
 
 ```r
-plot(daily_steps, type = "h", main = "Daily Steps", xlab = "Date", ylab = "Total Steps")
+hist(daily_steps$steps.total, main = "Daily Steps", xlab = "Steps per Day")
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
 
 3. Calculate and report the mean and median of the total number of steps taken per day.
 
@@ -70,7 +75,7 @@ interval_steps <- summarize(data_grouped2, steps.avg = mean(steps))
 plot(interval_steps, type = "l", main = "Average Daily Steps, by Interval", xlab = "Interval", ylab = "Average Steps")
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
@@ -112,10 +117,10 @@ for(i in 1:nrow(data_new)) {
 ```r
 data_grouped3 <- group_by(data_new, date)
 daily_steps2 <- summarize(data_grouped3, steps.total = sum(steps))
-plot(daily_steps2, type = "h", main = "Daily Steps, with Imputed Values", ylab = "Total Steps", xlab = "Date")
+hist(daily_steps2$steps.total, main = "Daily Steps, with Imputed Values", xlab = "Steps per Day")
 ```
 
-![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-10-1.png) 
 
 ```r
 mean(daily_steps2$steps.total)
@@ -161,5 +166,5 @@ plot(weekend_ints, type = "l", xlab = "Interval", ylab = "Average Steps", main =
 mtext("Average Daily Steps, by Interval", outer = TRUE, cex = 1.25)
 ```
 
-![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-12-1.png) 
 
